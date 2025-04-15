@@ -1,0 +1,66 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+
+
+class Usuari extends Authenticatable
+{
+    use Notifiable;
+
+    protected $table = 'usuaris'; // Nombre de la tabla personalizada
+
+    protected $fillable = [
+        'nom', 'email', 'contrasenya', 'foto',
+    ];
+
+    protected $hidden = [
+        'contrasenya', 'remember_token',
+    ];
+
+    public $timestamps = false; // Deshabilitar timestamps
+
+    // Indicar que el campo de contraseña es "contrasenya"
+    public function getAuthPassword()
+    {
+        return $this->contrasenya;
+    }
+
+    public function comprovarUsuari($email) {
+        return Usuari::where('email', $email)->first();
+    }
+
+    public function crearUsuari($data) {
+        return Usuari::create([
+            'nom' => $data['nom'],
+            'email' => $data['email'],
+            'contrasenya' => Hash::make($data['contrasenya']),
+        ]);
+    }
+
+    public function updateUsuari($data)
+    {  
+        $this->nom = $data['nom'];
+
+        // Si se sube una nueva foto
+        if (isset($data['foto']) && $data['foto']->isValid()) {
+            // Eliminar la foto anterior si existe
+            if ($this->foto && \Storage::exists($this->foto)) {
+                \Storage::delete($this->foto);
+            }
+
+            // Guardar la nueva foto en la raíz del proyecto
+            $fileName = time() . '_' . $data['foto']->getClientOriginalName(); // Generar un nombre único
+            $data['foto']->move(base_path(), $fileName); // Guardar en la raíz del proyecto
+
+            $this->foto = $fileName; // Guardar el nombre del archivo en la base de datos
+        }
+
+        // Guardar cambios en la base de datos
+        $this->save();
+    }
+}

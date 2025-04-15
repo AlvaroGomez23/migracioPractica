@@ -1,0 +1,114 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    background-image: url('https://phantom-elmundo.unidadeditorial.es/2d81b2917c56237b11f3574e137e120b/crop/14x0/1280x844/resize/1200/f/webp/assets/multimedia/imagenes/2023/09/28/16959013724520.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+h1 {
+    text-align: center;
+    color: black;
+    background-color: #D5BDAF;
+    font-size: 2.5rem;
+    margin: 2rem 0;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+/* Tabla */
+table {
+    width: 90%;
+    margin: 2rem auto;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+table th, table td {
+    padding: 1rem;
+    text-align: center;
+    border: 1px solid #ddd;
+    color: #333;
+}
+
+table th {
+    background-color: #333;
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tr:hover {
+    background-color: #ddd;
+}
+
+/* Enlaces dentro de la tabla */
+table a {
+    text-decoration: none;
+    color: #007BFF;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+table a:hover, table a:focus {
+    color: #0056b3;
+    outline: 2px solid #0056b3;
+    border-radius: 4px;
+}
+
+/* Botón de enviar */
+form input[type="submit"] {
+    display: block;
+    margin: 2rem auto;
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    color: #000000;
+    background-color: #edede9;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+form input[type="submit"]:hover,
+form input[type="submit"]:focus {
+    background-color: #D5BDAF;
+    transform: scale(1.05);
+    outline: 2px solid #333;
+}
+
+/* Botón de eliminar */
+.eliminar {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 30px; 
+    padding: 0.5rem 1.75rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.eliminar:hover,
+.eliminar:focus {
+    background-color: #c82333;
+    transform: scale(1.05);
+    outline: 2px solid #a71d2a;
+}
+
+/* Mejora de accesibilidad para navegación con teclado */
+*:focus {
+    outline: 2px solid #0056b3;
+    outline-offset: 3px;
+    border-radius: 4px;
+    box-shadow: 0 0 5px rgba(0, 86, 179, 0.5);
+}
