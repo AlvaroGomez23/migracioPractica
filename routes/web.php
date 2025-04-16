@@ -80,8 +80,17 @@ Route::get('/admin', function() {
 })->name('admin');
 
 Route::get('/password/change', function () {
-    return view('cambiarContrasenya'); // Vista para cambiar contraseña
+    return view('cambiarContrasenya');
 })->name('password.change');
+
+Route::post('/password/update', [PerfilController::class, 'updatePassword'])->name('password.update');
+
+Route::get('/resetPassword/{token}', function ($token) {
+    return view('resetPassword', ['token' => $token]);
+})->name('resetPassword');
+
+Route::post('/update-password', [RecuperarContrasenyaController::class, 'updatePassword'])->name('update-password');
+
 
 
 

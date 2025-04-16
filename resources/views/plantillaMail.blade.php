@@ -8,7 +8,7 @@
 <body>
     <h1>Recuperació de Contrasenya</h1>
     <p>Has sol·licitat recuperar la teva contrasenya. Fes clic al següent enllaç per restablir-la:</p>
-    <a href="{{ url('/reset-password?token=' . $token) }}">Restablir Contrasenya</a>
+    <a href="{{ url('/resetPassword/' . $token) }}">Restablir Contrasenya</a>
     <p>Aquest enllaç expira en 15 minuts.</p>
 </body>
 </html>

@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 
 class Usuari extends Authenticatable
@@ -30,7 +31,7 @@ class Usuari extends Authenticatable
         return $this->contrasenya;
     }
 
-    public function comprovarUsuari($email) {
+    public static function comprovarUsuari($email) {
         return Usuari::where('email', $email)->first();
     }
 
@@ -49,8 +50,8 @@ class Usuari extends Authenticatable
         // Si se sube una nueva foto
         if (isset($data['foto']) && $data['foto']->isValid()) {
             // Eliminar la foto anterior si existe
-            if ($this->foto && \Storage::exists($this->foto)) {
-                \Storage::delete($this->foto);
+            if ($this->foto && Storage::exists($this->foto)) {
+                Storage::delete($this->foto);
             }
 
             // Guardar la nueva foto en la raíz del proyecto
@@ -61,6 +62,26 @@ class Usuari extends Authenticatable
         }
 
         // Guardar cambios en la base de datos
+        $this->save();
+    }
+
+    public function updatePassword($data)
+    {
+        $this->contrasenya = Hash::make($data['contrasenya']);
+        $this->save();
+    }
+
+    public static function buscarToken($request)
+    {
+        return Usuari::where('token', $request->token)
+        ->where('tokenExpire', '>', Carbon::now())
+        ->first();
+    }
+
+    public function resetContrasenya($data) {
+        $this->contrasenya = Hash::make($data);
+        $this->token = null;
+        $this->tokenExpire = null;
         $this->save();
     }
 }
