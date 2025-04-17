@@ -5,6 +5,8 @@ use App\Models\Usuari;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
+
+
 class OauthController extends Controller
 {
     // Redirigir al usuario a Google para autenticarse
@@ -31,16 +33,19 @@ class OauthController extends Controller
             );
 
             // Iniciar sesión al usuario
-            Auth::login($user, true);
+            Auth::login($user);
 
+            
             // Verificar si el usuario está autenticado
             if (Auth::check()) {
-                return redirect()->route('dashboard')->with('success', 'Has iniciat sessió correctament amb Google.');
+                return redirect('/dashboard'); // Redirigir a la página de inicio después de iniciar sesión
             } else {
-                return redirect()->route('login')->withErrors(['oauth' => 'No s\'ha pogut autenticar l\'usuari després del registre.']);
+                return redirect('/login');
             }
         } catch (\Exception $e) {
             return redirect()->route('login')->withErrors(['oauth' => 'Hi ha hagut un problema amb l\'autenticació de Google.']);
         }
+
+        dd($user);
     }
 }

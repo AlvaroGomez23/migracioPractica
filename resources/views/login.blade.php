@@ -32,6 +32,12 @@
                 data-action='submit'>Login</button>
         </form>
 
+        @if ($errors->has('oauth'))
+            <div class="error">
+                {{ $errors->first('oauth') }}
+            </div>
+        @endif
+
         <div>
             <a href="{{ route('auth.google.redirect') }}">
                 <img class="icon" src="https://www.keyweo.com/wp-content/uploads/2022/03/el-logo-g-de-google.png" alt="Google Logo">
