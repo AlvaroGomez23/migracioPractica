@@ -8,15 +8,17 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 
-
 class Usuari extends Authenticatable
 {
     use Notifiable;
 
-    protected $table = 'usuaris'; // Nombre de la tabla personalizada
+    protected $table = 'usuaris'; // Nombre de la tabla en la base de datos
 
     protected $fillable = [
-        'nom', 'email', 'contrasenya', 'foto',
+        'nom',
+        'email',
+        'oauth', // Campo que indica si el usuario se registró por OAuth
+        'foto',  // Campo para almacenar la foto del perfil
     ];
 
     protected $hidden = [
@@ -83,5 +85,11 @@ class Usuari extends Authenticatable
         $this->token = null;
         $this->tokenExpire = null;
         $this->save();
+    }
+
+    // Método para verificar si el usuario se registró por OAuth
+    public function isOauthUser()
+    {
+        return $this->oauth !== null;
     }
 }

@@ -30,8 +30,13 @@ class LoginController extends Controller {
         }
 
         if (Hash::check($request->contrasenya, $usuari->contrasenya)) {
+
             Auth::login($usuari);
-            return redirect('/dashboard');
+            if ($usuari['nom'] == "admin") {
+                return redirect('/admin');
+            } else {
+                return redirect('/dashboard');
+            }
         } else {
             return redirect()->back()->withErrors(['contrasenya' => 'Contrasenya incorrecta.']);
         }

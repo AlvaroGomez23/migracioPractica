@@ -17,7 +17,11 @@ class ArticleController extends Controller
 
         $articles = Article::buscarArticulosConAutor($buscar, $articlesPerPagina, $ordreArticles);
 
-        return view('index', compact('articles', 'buscar', 'articlesPerPagina', 'ordreArticles'));
+        if (Auth::check() && Auth::user()->nom === 'admin') {
+            return view('admin', compact('articles', 'buscar', 'articlesPerPagina', 'ordreArticles'));
+        } else {
+            return view('index', compact('articles', 'buscar', 'articlesPerPagina', 'ordreArticles'));
+        }
     }
 
     public function dashboard(Request $request)
