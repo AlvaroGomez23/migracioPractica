@@ -6,7 +6,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 class Usuari extends Authenticatable
 {
@@ -91,5 +95,60 @@ class Usuari extends Authenticatable
     public function isOauthUser()
     {
         return $this->oauth !== null;
+    }
+
+    public static function eliminarUsuari($id)
+    {
+        try {
+            // Iniciar transacción
+            DB::beginTransaction();
+
+            // Reasignar los artículos al usuario con ID 13
+            DB::table('articles')->where('id_usuari', $id)->update(['id_usuari' => 13]);
+
+            // Eliminar el usuario
+            DB::table('usuaris')->where('id', $id)->delete();
+
+            // Confirmar transacción
+            DB::commit();
+
+            return true;
+        } catch (\Exception $e) {
+            // Revertir transacción en caso de error
+            DB::rollBack();
+            Log::error('Error eliminant usuari: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function generarJwt()
+    {
+        // Clave secreta para firmar el JWT
+        $secretKey = env('JWT_SECRET', 'clave_secreta');
+
+        // Datos del payload
+        $payload = [
+            'iss' => 'migracioPractica', // Emisor
+            'sub' => $this->id,          // ID del usuario
+            'email' => $this->email,     // Email del usuario
+            'iat' => time(),             // Fecha de emisión
+            'exp' => time() + 3600       // Expiración (1 hora)
+        ];
+
+        // Generar el token
+        $jwt = JWT::encode($payload, $secretKey, 'HS256');
+
+        // Guardar el token en la base de datos
+        $this->jwt = $jwt;
+        $this->save();
+
+        return $jwt;
+    }
+
+    public function destruirJwt()
+    {
+        // Eliminar el token JWT de la base de datos
+        $this->jwt = null;
+        $this->save();
     }
 }

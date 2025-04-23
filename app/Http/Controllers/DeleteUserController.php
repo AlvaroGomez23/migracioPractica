@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Usuari;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class DeleteUserController extends Controller
 {
@@ -12,30 +11,28 @@ class DeleteUserController extends Controller
     {
         $id = $request->input('id');
 
+        // Comprobar si el ID es válido
         if (!$id) {
             return response()->json(['success' => false, 'error' => 'ID invàlid']);
         }
 
-        try {
-            DB::beginTransaction();
+        // Comprobar si el usuario es "admin" (no se puede eliminar)
+        $usuari = Usuari::find($id);
+        if (!$usuari) {
+            return response()->json(['success' => false, 'error' => 'Usuari no trobat']);
+        }
 
-            // 1. Reasignar els articles abans d’eliminar
-            DB::table('articles')->where('id_usuari', $id)->update(['id_usuari' => 13]);
+        if ($usuari->nom === 'admin') {
+            return response()->json(['success' => false, 'error' => 'No es pot eliminar l\'usuari admin']);
+        }
 
-            // 2. Eliminar l’usuari
-            DB::table('usuaris')->where('id', $id)->delete();
+        // Delegar la eliminación al modelo
+        $success = Usuari::eliminarUsuari($id);
 
-            DB::commit();
-
+        if ($success) {
             return response()->json(['success' => true]);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            Log::error('Error eliminant usuari: ' . $e->getMessage());
-
-            return response()->json([
-                'success' => false,
-                'error' => 'Error intern: ' . $e->getMessage()
-            ], 500);
+        } else {
+            return response()->json(['success' => false, 'error' => 'Error intern durant l\'eliminació']);
         }
     }
 }

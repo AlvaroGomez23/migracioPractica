@@ -9,7 +9,7 @@ use App\Http\Controllers\PerfilController; // Ensure this controller exists in t
 use App\Http\Controllers\AdminController; // Ensure this controller exists in the specified namespace
 use App\Http\Controllers\DeleteUserController; // Ensure this controller exists in the specified namespace
 use App\Http\Controllers\OauthController; // Ensure this controller exists in the specified namespace
-
+use App\Http\Controllers\ApiController; // Ensure this controller exists in the specified namespace
 
 // Definir todas las rutas que usan la vista 'home'
 Route::get('/', [ArticleController::class, 'index'])->name('home');
@@ -99,5 +99,7 @@ Route::post('/users/delete', [DeleteUserController::class, 'delete'])->name('del
 
 Route::get('/auth/redirect/google', [OauthController::class, 'redirectToGoogle'])->name('auth.google.redirect');
 Route::get('/auth/callback/google', [OauthController::class, 'handleGoogleCallback'])->name('auth.google.callback');
+
+Route::get('/api', [ApiController::class, 'index'])->name('api')->middleware('auth');
 
 
