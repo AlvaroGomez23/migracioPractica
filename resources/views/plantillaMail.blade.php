@@ -6,6 +6,7 @@
     <title>Recuperació de Contrasenya</title>
 </head>
 <body>
+    <! -- Plantilla per al correu electrònic de recuperació de contrasenya -->
     <h1>Recuperació de Contrasenya</h1>
     <p>Has sol·licitat recuperar la teva contrasenya. Fes clic al següent enllaç per restablir-la:</p>
     <a href="{{ url('/resetPassword/' . $token) }}">Restablir Contrasenya</a>
