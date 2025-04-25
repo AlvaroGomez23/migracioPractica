@@ -26,7 +26,7 @@
                 <button class="dropbtn">Compte</button>
                 <div class="dropdown-content" tabindex="0">
                     <a href="{{ route('perfil') }}">Perfil</a>
-                    <a href="{{ route('info-api') }}">Informació API</a>
+                    <a href="{{ route('infoApi') }}">Informació API</a>
                     <a href="{{ route('logout') }}">Logout</a>
                 </div>
             </div>

@@ -199,3 +199,14 @@ img:focus {
     box-shadow: 0 0 5px #E3D5CA;
     border-radius: 5px;
 }
+
+.jwt-container {
+    word-break: break-all;
+    white-space: normal;
+    overflow-wrap: break-word;
+    background-color: #f4f4f4; /* Opcional: fondo para destacar el JWT */
+    padding: 5px; /* Opcional: espacio interno */
+    border: 1px solid #ddd; /* Opcional: borde para destacar */
+    border-radius: 5px; /* Opcional: esquinas redondeadas */
+    font-family: monospace; /* Opcional: fuente para texto técnico */
+}

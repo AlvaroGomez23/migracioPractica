@@ -74,9 +74,9 @@ Route::get('/perfil', function () {
 
 Route::post('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
 
-Route::get('/info-api', function () {
-    return view('index');
-})->name('info-api');
+Route::get('/infoApi', function () {
+    return view('infoApi');
+})->name('infoApi');
 
 Route::get('/admin', [ArticleController::class, 'index'])->name('admin');
 
@@ -86,7 +86,7 @@ Route::get('/password/change', function () {
 
 Route::post('/password/update', [PerfilController::class, 'updatePassword'])->name('password.update');
 
-Route::get('/resePassword/{token}', function ($token) {
+Route::get('/resetPassword/{token}', function ($token) {
     return view('resetPassword', ['token' => $token]);
 })->name('resetPassword');
 
@@ -100,6 +100,6 @@ Route::post('/users/delete', [DeleteUserController::class, 'delete'])->name('del
 Route::get('/auth/redirect/google', [OauthController::class, 'redirectToGoogle'])->name('auth.google.redirect');
 Route::get('/auth/callback/google', [OauthController::class, 'handleGoogleCallback'])->name('auth.google.callback');
 
-Route::get('/api', [ApiController::class, 'index'])->name('api')->middleware('auth');
+Route::get('/api', [ApiController::class, 'index'])->name('api');
 
 

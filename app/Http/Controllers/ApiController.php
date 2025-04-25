@@ -16,7 +16,8 @@ class ApiController extends Controller
         $jwt = $request->cookie('jwt');
 
         if (!$jwt) {
-            return response()->json(['error' => 'No hi ha JWT o no està logat.'], 401);
+            // Devolver un error JSON si no hay JWT
+            return response()->json(['error' => 'No autenticat. JWT no proporcionat.'], 401);
         }
 
         try {
@@ -25,7 +26,7 @@ class ApiController extends Controller
             $decoded = JWT::decode($jwt, new Key($secretKey, 'HS256'));
 
             // Verificar si el usuario existe y el JWT coincide con el de la base de datos
-            $usuari = Usuari::find($decoded->sub);
+            $usuari = Plantilla::buscarUsuariJwt($decoded);
 
             if (!$usuari || $usuari->jwt !== $jwt) {
                 return response()->json(['error' => 'No autenticat. JWT invalid.'], 401);
@@ -33,12 +34,15 @@ class ApiController extends Controller
 
             // Obtener el parámetro 'nom' de la solicitud
             $nom = $request->input('nom', '');
-            $plantilles = Plantilla::where('nom', 'like', "%$nom%")->get();
 
-            // Devolver los resultados
-            return view('api', compact('plantilles', 'nom'));
+            // Usar el método del modelo para buscar plantillas
+            $plantilles = Plantilla::cercarPerNom($nom);
+
+            // Devolver los resultados como JSON
+            return response()->json(['success' => true, 'data' => $plantilles]);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'No hi ha JWT o no està logat.'], 401);
+            // Manejar errores al decodificar el JWT
+            return response()->json(['error' => 'No autenticat. Error al verificar el JWT.'], 401);
         }
     }
 }
