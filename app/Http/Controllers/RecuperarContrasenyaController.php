@@ -25,7 +25,7 @@ class RecuperarContrasenyaController extends Controller
         // Generar token
         $token = Str::random(60);
         $usuari->token = $token;
-        $usuari->tokenExpire = Carbon::now()->addMinutes(15); // Cambiado a tokenExpire
+        $usuari->tokenExpire = Carbon::now()->addMinutes(15); //Camp expiració del token
         $usuari->save();
 
         // Enviar email
@@ -43,12 +43,12 @@ class RecuperarContrasenyaController extends Controller
     {
         $request->validate([
             'token' => 'required',
-            'password' => 'required|min:8|confirmed', // Validar que las contraseñas coincidan
+            'password' => 'required|min:8|confirmed', // Validar contrasenya
         ], [
             'password.confirmed' => 'Les contrasenyes no coincideixen.',
         ]);
 
-        // Buscar usuario por token
+        // Buscar usuari per token
         $usuari = Usuari::buscarToken($request);
         
 
@@ -57,7 +57,7 @@ class RecuperarContrasenyaController extends Controller
         }
 
 
-        // Actualizar la contraseña
+        // Actualitzar la contraseña
         $usuari->resetContrasenya($request->password);
 
         return redirect()->route('login')->with('success', 'Contrasenya restablerta correctament.');

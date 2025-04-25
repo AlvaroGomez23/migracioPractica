@@ -15,6 +15,7 @@ class SigninController extends Controller
 
     public function signin(Request $request)
     {
+        // Validacions per crear el compte
         $request->validate([
             'nom' => 'required|string|max:255',
             'email' => 'required|email|unique:usuaris,email',

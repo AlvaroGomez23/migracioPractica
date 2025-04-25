@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Articles Totals</title>
-    <link rel="stylesheet" href="{{ asset('css/estilsFinals.css') }}"> <!-- Incluye tu archivo CSS -->
+    <link rel="stylesheet" href="{{ asset('css/estilsFinals.css') }}"> 
 </head>
 <body>
     <a href="#main-content" class="skip-link">Saltar al contingut principal</a>
@@ -13,7 +13,7 @@
     <header>
         <div class="logo">
             Hola! {{ Auth::user()->nom ?? 'Usuari' }}
-        </div> <!-- Mostrar el nombre del usuario autenticado o un valor por defecte -->
+        </div> 
 
         <div class="signin-form">
             <form action="{{ route('inserirArticle') }}">
@@ -61,12 +61,12 @@
                     <h2 tabindex="0">{{ $article->nom }}</h2>
                     <p tabindex="0">{{ $article->descripcio }}</p>
 
-                    <!-- Botón de Editar -->
+                   
                     <form action="{{ route('articles.edit', ['id' => $article->id]) }}" method="GET" style="display: inline;">
                         <button type="submit" class="botons">Editar</button>
                     </form>
 
-                    <!-- Botón de Eliminar -->
+                    
                     <form action="{{ route('articles.delete', ['id' => $article->id]) }}" method="POST" style="display: inline;">
                         @csrf
                         @method('DELETE')

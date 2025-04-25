@@ -15,7 +15,7 @@
         <img class="foto" src="{{ asset('storage/' . Auth::user()->foto) }}" alt="Foto de perfil" style="width: 75px;">
 
         <form method="POST" action="{{ route('perfil.update') }}" enctype="multipart/form-data">
-            @csrf <!-- Protección contra CSRF -->
+            @csrf 
 
             <label for="nom">NickName:</label>
             <input type="text" class="input-field" name="nom" id="nom" value="{{ Auth::user()->nom }}">
@@ -26,7 +26,7 @@
             <label for="foto">Foto:</label>
             <input type="file" id="foto" class="input-field" name="foto" accept="image/*">
 
-            <!-- Mostrar enlace para cambiar contraseña si no es un usuario de OAuth -->
+           
             @if (Auth::user()->oauth == null)
                 <a href="{{ route('password.change') }}">Canviar Contrasenya</a>
             @endif

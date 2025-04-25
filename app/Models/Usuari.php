@@ -10,19 +10,18 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 
 class Usuari extends Authenticatable
 {
     use Notifiable;
 
-    protected $table = 'usuaris'; // Nombre de la tabla en la base de datos
+    protected $table = 'usuaris'; // Nom de la taula a la base de dades
 
     protected $fillable = [
         'nom',
         'email',
-        'oauth', // Campo que indica si el usuario se registró por OAuth
-        'foto',  // Campo para almacenar la foto del perfil
+        'oauth', // Camp que indica si l'usuari es va registrar per OAuth
+        'foto',  // Camp per emmagatzemar la foto del perfil
     ];
 
     protected $hidden = [
@@ -31,7 +30,7 @@ class Usuari extends Authenticatable
 
     public $timestamps = false; // Deshabilitar timestamps
 
-    // Indicar que el campo de contraseña es "contrasenya"
+    
     public function getAuthPassword()
     {
         return $this->contrasenya;
@@ -53,21 +52,21 @@ class Usuari extends Authenticatable
     {  
         $this->nom = $data['nom'];
 
-        // Si se sube una nueva foto
+        // Si es puja una nova foto
         if (isset($data['foto']) && $data['foto']->isValid()) {
-            // Eliminar la foto anterior si existe
+            // Eliminar la foto anterior si existeix
             if ($this->foto && Storage::exists($this->foto)) {
                 Storage::delete($this->foto);
             }
 
-            // Guardar la nueva foto en la raíz del proyecto
-            $fileName = time() . '_' . $data['foto']->getClientOriginalName(); // Generar un nombre único
-            $data['foto']->move(base_path(), $fileName); // Guardar en la raíz del proyecto
+            // Guardar la nova foto
+            $fileName = time() . '_' . $data['foto']->getClientOriginalName(); // Generar un nom únic
+            $data['foto']->move(base_path(), $fileName);
 
-            $this->foto = $fileName; // Guardar el nombre del archivo en la base de datos
+            $this->foto = $fileName; // Guardar el nom del fitxer a la base de dades
         }
 
-        // Guardar cambios en la base de datos
+        // Guardar els canvis a la base de dades
         $this->save();
     }
 
@@ -91,7 +90,7 @@ class Usuari extends Authenticatable
         $this->save();
     }
 
-    // Método para verificar si el usuario se registró por OAuth
+    // Mètode per verificar si l'usuari es va registrar per OAuth
     public function isOauthUser()
     {
         return $this->oauth !== null;
@@ -100,45 +99,47 @@ class Usuari extends Authenticatable
     public static function eliminarUsuari($id)
     {
         try {
-            // Iniciar transacción
+            // Iniciar transacció
+            //Important per evitar que es perdi informació
+            // en cas d'error durant l'eliminació
             DB::beginTransaction();
 
-            // Reasignar los artículos al usuario con ID 13
+            // Reassignar els articles a l'usuari amb ID 13
             DB::table('articles')->where('id_usuari', $id)->update(['id_usuari' => 13]);
 
-            // Eliminar el usuario
+            // Eliminar l'usuari
             DB::table('usuaris')->where('id', $id)->delete();
 
-            // Confirmar transacción
+            // Confirmar transacció
             DB::commit();
 
             return true;
         } catch (\Exception $e) {
-            // Revertir transacción en caso de error
+            // Revertir transacció en cas d'error
             DB::rollBack();
-            Log::error('Error eliminant usuari: ' . $e->getMessage());
+            Log::error('Error eliminant usuari: ' . $e->getMessage()); // Registrar l'error
             return false;
         }
     }
 
     public function generarJwt()
     {
-        // Clave secreta para firmar el JWT
+        // Clau secreta per signar el JWT
         $secretKey = env('JWT_SECRET', 'clave_secreta');
 
-        // Datos del payload
+        // Dades del payload
         $payload = [
-            'iss' => 'migracioPractica', // Emisor
-            'sub' => $this->id,          // ID del usuario
-            'email' => $this->email,     // Email del usuario
-            'iat' => time(),             // Fecha de emisión
-            'exp' => time() + 3600       // Expiración (1 hora)
+            'iss' => 'migracioPractica', // Emissor
+            'sub' => $this->id,          // ID de l'usuari
+            'email' => $this->email,     // Email de l'usuari
+            'iat' => time(),             // Data d'emissió
+            'exp' => time() + 3600       // Expiració (1 hora)
         ];
 
         // Generar el token
         $jwt = JWT::encode($payload, $secretKey, 'HS256');
 
-        // Guardar el token en la base de datos
+        // Guardar el token a la base de dades
         $this->jwt = $jwt;
         $this->save();
 
@@ -147,7 +148,7 @@ class Usuari extends Authenticatable
 
     public function destruirJwt()
     {
-        // Eliminar el token JWT de la base de datos
+        // Eliminar el token JWT de la base de dades
         $this->jwt = null;
         $this->save();
     }

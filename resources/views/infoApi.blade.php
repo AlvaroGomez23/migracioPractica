@@ -15,7 +15,7 @@
         <p tabindex="0">S'ha d'estar logat per poder utilitzar-la.</p>
         <p tabindex="0">Per utilitzar-la al postman s'han d'utilitzar les següents dades:</p>
         <br>
-        <p>A diferència del projecte de PHP natiu només s'ha dafegir el jwt, ja que s'esborra quan l'usuari fa logout</p>
+        <p>A diferència del projecte de PHP natiu només s'ha dafegir el jwt, ja que el jwt s'esborra quan l'usuari fa logout</p>
         <p tabindex="0"><strong>jwt
             </strong>:
             <span class="jwt-container"> {{ request()->cookie('jwt') }} </span>

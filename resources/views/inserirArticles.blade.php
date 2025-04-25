@@ -11,12 +11,12 @@
     <div>
         <h1>INSERTAR ARTICLES</h1>
 
-        <!-- Mostrar mensaje de éxito -->
+    
         
 
         <div class="container">
             <form class="formUsuari" method="POST" action="{{ route('articles.store') }}">
-                @csrf <!-- Protección contra CSRF -->
+                @csrf 
 
                 <label for="nom">Nom:</label>
                 <input class="input-field" type="text" id="nom" name="nom" value="{{ old('nom') }}" required> <!-- Input pel nom -->

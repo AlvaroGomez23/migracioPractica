@@ -17,10 +17,12 @@ class Plantilla extends Model
      */
     public static function cercarPerNom($nom)
     {
+        // Retornar una llista de plantilles que coincideixen amb el nom
         return self::where('nom', 'like', "%$nom%")->get();
     }
 
     public static function buscarUsuariJwt($decoded){
+        // Retornar l'usuari associat al JWT
         return Usuari::find($decoded->sub);
     }
 }

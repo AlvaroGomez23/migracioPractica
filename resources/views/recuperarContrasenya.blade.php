@@ -11,7 +11,7 @@
     <div class="container">
         <h2>Recuperar Contrasenya</h2>
         <form action="{{ route('recuperarContrasenya') }}" method="POST">
-            @csrf <!-- Protección contra CSRF -->
+            @csrf 
             <input type="email" name="email" class="input-field" placeholder="Email" required>
             <input type="submit" value="Recuperar Contrasenya" class="botons">
         </form>

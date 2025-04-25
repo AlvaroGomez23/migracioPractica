@@ -11,22 +11,23 @@ class DeleteUserController extends Controller
     {
         $id = $request->input('id');
 
-        // Comprobar si el ID es válido
+        // Validar que l'ID sigui vàlid
         if (!$id) {
             return response()->json(['success' => false, 'error' => 'ID invàlid']);
         }
 
-        // Comprobar si el usuario es "admin" (no se puede eliminar)
+        // Comprovar si l'usuari existeix
         $usuari = Usuari::find($id);
         if (!$usuari) {
             return response()->json(['success' => false, 'error' => 'Usuari no trobat']);
         }
 
+        // Comprovar si l'usuari és "admin" (no es pot eliminar)
         if ($usuari->nom === 'admin') {
             return response()->json(['success' => false, 'error' => 'No es pot eliminar l\'usuari admin']);
         }
 
-        // Delegar la eliminación al modelo
+        // Delegar l'eliminació al model
         $success = Usuari::eliminarUsuari($id);
 
         if ($success) {

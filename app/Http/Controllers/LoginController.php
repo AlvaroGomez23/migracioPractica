@@ -34,7 +34,7 @@ class LoginController extends Controller {
             // Destruir el token JWT anterior
             $usuari->destruirJwt();
 
-            // Generar un nuevo token JWT
+            // Generar jwt
             $jwt = $usuari->generarJwt();
 
             // Iniciar sesión al usuario
@@ -59,6 +59,7 @@ class LoginController extends Controller {
 
         if ($usuari) {
             // Destruir el token JWT
+            //Aquesta linia dona error però no afecta al funcionament
             $usuari->destruirJwt();
         }
 

@@ -5,40 +5,37 @@ use App\Models\Usuari;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
-
-
 class OauthController extends Controller
 {
-    // Redirigir al usuario a Google para autenticarse
+    // Redirigir l'usuari a Google per autenticar-se
     public function redirectToGoogle()
     {
         return Socialite::driver('google')->redirect();
     }
 
-    // Manejar el callback de Google
+    // Gestionar el callback de Google
     public function handleGoogleCallback()
     {
         try {
-            // Obtener los datos del usuario desde Google
+            // Obtenir les dades de l'usuari des de Google
             $googleUser = Socialite::driver('google')->user();
 
-            // Buscar o registrar al usuario en la base de datos
+            // Cercar o registrar l'usuari a la base de dades
             $user = Usuari::firstOrCreate(
                 ['email' => $googleUser->getEmail()],
                 [
                     'nom' => $googleUser->getName(),
-                    'oauth' => 'google', // Indicar que el usuario se registró por OAuth
+                    'oauth' => 'google', // Indicar que l'usuari s'ha registrat per OAuth
                     'foto' => $googleUser->getAvatar(), // Guardar la foto del perfil
                 ]
             );
 
-            // Iniciar sesión al usuario
+            // Iniciar sessió per a l'usuari
             Auth::login($user);
 
-            
-            // Verificar si el usuario está autenticado
+            // Verificar si l'usuari està autenticat
             if (Auth::check()) {
-                return redirect('/dashboard'); // Redirigir a la página de inicio después de iniciar sesión
+                return redirect('/dashboard'); // Redirigir a la pàgina d'inici després d'iniciar sessió
             } else {
                 return redirect('/login');
             }

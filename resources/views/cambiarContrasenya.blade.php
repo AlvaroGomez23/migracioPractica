@@ -11,14 +11,14 @@
     <div class="container">
         <h2>Cambiar Contrasenya</h2>
         <form action="{{ route('password.update') }}" method="POST">
-            @csrf <!-- Protección contra CSRF -->
+            @csrf 
 
             <input type="password" name="pswActual" class="input-field" placeholder="Contrasenya Actual" required>
             <input type="password" name="pswNew" class="input-field" placeholder="Nova Contrasenya" required>
             <input type="password" name="pswNew_confirmation" class="input-field" placeholder="Repeteix la nova contrasenya" required>
             <input type="submit" name="cambiar" value="Cambiar Contrasenya" class="botons">
 
-            <!-- Mostrar errores de validación -->
+            
             @if ($errors->any())
                 <div class="error-messages">
                     <ul>
@@ -29,7 +29,7 @@
                 </div>
             @endif
 
-            <!-- Mostrar mensaje de éxito -->
+         
             @if (session('success'))
                 <div class="success-message">
                     {{ session('success') }}
