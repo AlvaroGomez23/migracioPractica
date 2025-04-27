@@ -49,7 +49,7 @@
                         <p tabindex="0">{{ $article->descripcio }}</p>
                         <p tabindex="0"><b>Autor:</b> {{ $article->autor }}</p>
                         <div class="gestio">
-                            <a href="{{ route('articles.qr', ['nom' => $article->nom, 'descripcio' => $article->descripcio]) }}">Clonar amb QR</a>
+                            
                         </div>
                     </div>
                 @endforeach

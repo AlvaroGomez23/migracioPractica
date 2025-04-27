@@ -16,7 +16,7 @@
         </div> 
 
         <div class="signin-form">
-            <form action="{{ route('inserirArticle') }}">
+            <form action="{{ route('inserirArticles') }}">
                 <input class="botons" type="submit" value="Inserir Article">
             </form>
         </div>

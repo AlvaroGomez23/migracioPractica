@@ -15,9 +15,9 @@ use App\Http\Controllers\ApiController; // Ensure this controller exists in the 
 Route::get('/', [ArticleController::class, 'index'])->name('home');
 
 
-Route::get('/inserirArticle', function() {
+Route::get('/inserirArticles', function() {
     return view('inserirArticles');
-})->name('inserirArticle');
+})->name('inserirArticles');
 
 Route::get('/scanner/qr', function () {
     return view('home'); // Vista para el escáner QR
@@ -47,9 +47,9 @@ Route::get('/login/submit', function () {
 
 
 
-Route::get('/recuperarContrasenya', function () {
+Route::get('/recuperarContrasenyaGet', function () {
     return view('recuperarContrasenya'); // Vista para la página de registro
-})->name('recuperarContrasenya');
+})->name('recuperarContrasenyaGet');
 
 Route::post('/recuperarContrasenya', [RecuperarContrasenyaController::class, 'recuperar'])->name('recuperarContrasenya');
 

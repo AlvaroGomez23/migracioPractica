@@ -55,7 +55,7 @@
         <form action="{{ url('/') }}">
             <input type="submit" value="Tornar" class="botons">
         </form>
-        <a href="{{ route('recuperarContrasenya') }}" class="forgot-password">Contrasenya oblidada?</a>
+        <a href="{{ route('recuperarContrasenyaGet') }}" class="forgot-password">Contrasenya oblidada?</a>
 
         <div class="signup-link">
             No tens compte? <a href="{{ route('signin') }}">Enregistra't</a>
